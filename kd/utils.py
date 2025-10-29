@@ -2,6 +2,8 @@ import torch
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 
+import os
+
 def make_cifar10_loaders(batch_size=128, num_workers=2):
     """Pravi train i test DataLoader za CIFAR-10 dataset."""
     tf_train = transforms.Compose([
@@ -35,3 +37,8 @@ def evaluate(model, loader, device):
         correct += (preds == y).sum().item()
         total   += y.size(0)
     return correct / total
+
+
+def save_ckpt(model, path):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    torch.save(model.state_dict(), path)
